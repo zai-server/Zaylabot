@@ -1,0 +1,39 @@
+const fs = require("fs");
+const path = "./data/zedu.json";
+
+let zeduData = {};
+if (fs.existsSync(path)) {
+  zeduData = JSON.parse(fs.readFileSync(path));
+}
+
+function saveZedu() {
+  fs.writeFileSync(path, JSON.stringify(zeduData, null, 2));
+}
+
+function recordAnswer(userID, correct) {
+  if (!zeduData[userID]) {
+    zeduData[userID] = { score: 0, answered: 0 };
+  }
+  zeduData[userID].answered += 1;
+  if (correct) {
+    zeduData[userID].score += 10;  // correct answer +10
+  } else {
+    zeduData[userID].score -= 3;   // wrong answer -3
+  }
+  saveZedu();
+}
+
+function getLeaderboard() {
+  const leaderboard = Object.keys(zeduData)
+    .map(userID => ({
+      userID,
+      score: zeduData[userID].score,
+    }))
+    .sort((a, b) => b.score - a.score); // Sort by score
+  return leaderboard;
+}
+
+module.exports = {
+  recordAnswer,
+  getLeaderboard,
+};
