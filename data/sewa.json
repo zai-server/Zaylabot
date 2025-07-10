@@ -1,0 +1,22 @@
+// sewa.js
+
+const fs = require("fs"); const path = require("path");
+
+const SEWA_FILE = path.join(__dirname, "./data/sewa.json");
+
+// Load data sewa dari file function loadSewa() { if (!fs.existsSync(SEWA_FILE)) return {}; return JSON.parse(fs.readFileSync(SEWA_FILE)); }
+
+// Simpan data sewa ke file function saveSewa(data) { fs.writeFileSync(SEWA_FILE, JSON.stringify(data, null, 2)); }
+
+// Tambah grup baru ke list sewa function tambahSewa(id, waktu, penyewa, pengawas) { const sewa = loadSewa(); sewa[id] = { expired: Date.now() + waktu * 3600000, // waktu dalam jam penyewa: penyewa, pengawas: pengawas || null, }; saveSewa(sewa); }
+
+// Cek status sewa function cekSewa(id) { const sewa = loadSewa(); if (!sewa[id]) return false; return Date.now() < sewa[id].expired; }
+
+// Hapus sewa function hapusSewa(id) { const sewa = loadSewa(); if (sewa[id]) { delete sewa[id]; saveSewa(sewa); } }
+
+// Dapatkan semua sewa aktif function semuaSewa() { const sewa = loadSewa(); const aktif = {}; for (const id in sewa) { if (Date.now() < sewa[id].expired) aktif[id] = sewa[id]; } return aktif; }
+
+// Cek apakah user adalah pengawas function isPengawas(idGroup, idUser) { const sewa = loadSewa(); return sewa[idGroup] && sewa[idGroup].pengawas === idUser; }
+
+module.exports = { tambahSewa, cekSewa, hapusSewa, semuaSewa, isPengawas, };
+
