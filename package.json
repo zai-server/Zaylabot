@@ -1,0 +1,25 @@
+{
+  "name": "zayla-bot",
+  "version": "1.0.0",
+  "description": "ZaylaBot adalah chatbot WhatsApp yang dilengkapi dengan sistem sewa, identitas pelanggan, sistem premium (Zrium), mata uang virtual (ZCoin), dan pengawasan otomatis. Dibangun dengan Baileys dan dirancang untuk fleksibilitas dan manajemen komunitas.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "whatsapp-bot",
+    "zaylabot",
+    "baileys",
+    "sewa-bot",
+    "zrium",
+    "zcoin",
+    "bot-wa"
+  ],
+  "author": "ZAI Lab",
+  "license": "MIT",
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.4.0",
+    "pino": "^8.0.0",
+    "@hapi/boom": "^10.0.1"
+  }
+}
